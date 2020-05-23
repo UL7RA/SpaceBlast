@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5916bea1843296f4897cc69231a04660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 0}
 --- !u!4 &1461630377
 Transform:
   m_ObjectHideFlags: 0
@@ -177,7 +178,6 @@ GameObject:
   - component: {fileID: 1809918439}
   - component: {fileID: 1809918438}
   - component: {fileID: 1809918437}
-  - component: {fileID: 1809918440}
   - component: {fileID: 1809918441}
   m_Layer: 0
   m_Name: Main Camera
@@ -251,18 +251,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1809918440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809918436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 504cf9e8644fbfc488a5a9077005d2e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1809918441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,13 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0b7abc2eb673a24fa4b3de7324557f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerShip: {fileID: 2091518292}
---- !u!1 &2091518292 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2236400287574592888, guid: 913c77f022094da41ad38b2438cb522a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2236400286037771308}
-  m_PrefabAsset: {fileID: 0}
+  playerShip: {fileID: 0}
 --- !u!1001 &2236400286037771308
 PrefabInstance:
   m_ObjectHideFlags: 0

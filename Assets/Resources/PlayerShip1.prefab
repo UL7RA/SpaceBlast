@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 2236400287574592891}
   - component: {fileID: 2236400287574592890}
   - component: {fileID: 2236400287574592889}
+  - component: {fileID: -2627714643503409527}
   m_Layer: 0
   m_Name: PlayerShip1
   m_TagString: Untagged
@@ -169,6 +170,7 @@ MonoBehaviour:
   turnSpeed: 5
   maxSpeed: 2
   fireCooldown: 0.3
+  health: 0
 --- !u!60 &2236400287574592884
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -269,3 +271,18 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &-2627714643503409527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236400287574592888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
