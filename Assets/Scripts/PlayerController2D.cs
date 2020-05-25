@@ -5,16 +5,20 @@ using DG.Tweening;
 using Photon.Realtime;
 using Photon.Pun;
 
-public class PlayerController2D : MonoBehaviourPun
+public class PlayerController2D : MonoBehaviourPun, IPunObservable
 {
     #region Public Fields
     [Tooltip("Put transforms for the firing positions")]
-    public GameObject projectile;
+    public string projectileName;
     public Transform[] firePositions;
     public float turnSpeed;
     public float maxSpeed;
     public float fireCooldown;
     public float health;
+
+    [HideInInspector]
+    public CameraFollow mainCam;
+    public bool isCurrentControlledShip;
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
@@ -26,14 +30,12 @@ public class PlayerController2D : MonoBehaviourPun
     Vector3 objectPos;
     float timeStamp;
     float currentHP;
-    CameraFollow mainCam;
+    Vector3 actualPosition = Vector3.zero;
+    Quaternion actualRotation = Quaternion.identity;
     #endregion
     void Start()
     {
         shipBody = gameObject.GetComponent<Rigidbody2D>();
-        mainCam = Camera.main.GetComponent<CameraFollow>();
-        mainCam.playerShip = gameObject;
-        mainCam.FollowActive(true);
         currentHP = health;
     }
 
@@ -42,8 +44,11 @@ public class PlayerController2D : MonoBehaviourPun
     {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
+            transform.position = actualPosition;
+            transform.rotation = actualRotation;
             return;
         }
+        isCurrentControlledShip = photonView.IsMine;
         mousePos = Input.mousePosition;
         objectPos = Camera.main.WorldToScreenPoint(transform.position);
         mousePos.x = mousePos.x - objectPos.x;
@@ -55,6 +60,8 @@ public class PlayerController2D : MonoBehaviourPun
     {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
+            transform.position = actualPosition;
+            transform.rotation = actualRotation;
             return;
         }
         MoveTowardsMouse();
@@ -71,7 +78,7 @@ public class PlayerController2D : MonoBehaviourPun
         foreach(Transform firePositionTransform in firePositions)
         {
             Vector3 fireCoords = firePositionTransform.position;
-            GameObject laser = Instantiate(projectile, fireCoords, transform.rotation) as GameObject;
+            PhotonNetwork.Instantiate(projectileName, fireCoords, transform.rotation);
         }
     }
 
@@ -86,8 +93,11 @@ public class PlayerController2D : MonoBehaviourPun
 
     void OnDestroy()
     {
-        mainCam.FollowActive(false);
-        mainCam.playerShip = null;
+        if (isCurrentControlledShip)
+        {
+            mainCam.FollowActive(false);
+            mainCam.playerShip = null;
+        }
     }
 
     void Awake()
@@ -102,4 +112,20 @@ public class PlayerController2D : MonoBehaviourPun
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         //DontDestroyOnLoad(this.gameObject);
     }
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // We own this player: send the others our data
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            // Network player, receive data
+            actualPosition = (Vector3)stream.ReceiveNext();
+            actualRotation = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
 }

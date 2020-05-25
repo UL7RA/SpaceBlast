@@ -43,6 +43,7 @@ public class NicknameInputField : MonoBehaviour
             Debug.LogError("Player name is null or empty!");
             return;
         }
+        Debug.Log("Player nick changed to " + value);
         PlayerPrefs.SetString(playerNamePrefKey, value);
         PhotonNetwork.NickName = value;
     }

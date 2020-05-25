@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
+
+    public Transform[] spawnPoints;
 
     #region Photon Callbacks
     public override void OnLeftRoom()
@@ -19,7 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log("Player " + newPlayer.NickName + " entered the level!"); //you don't see this if you're the one who's connecting
-        if(PhotonNetwork.IsMasterClient)
+        if(newPlayer.IsMasterClient)
         {
             Debug.Log("Master Client connected. Loading level...");
             LoadArena();
@@ -29,7 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log("Player " + otherPlayer.NickName + "left the room.");
-        if(PhotonNetwork.IsMasterClient)
+        if(otherPlayer.IsMasterClient)
         {
             Debug.Log("Master client disconnected. Closing level...");
             LoadArena(); //this doesn't look right.. perhaps it just reloads the level without kicking off everyone?
@@ -59,6 +62,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+            PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
+            Debug.Log("Master Client is now " + PhotonNetwork.NickName);
+        }
         if (playerPrefab == null)
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
@@ -67,7 +75,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.LogFormat("We are Instantiating LocalPlayer");
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+            int spawnPointNum = Random.Range((int)0, (int)spawnPoints.Length);
+            Vector3 spawnLocation = spawnPoints[spawnPointNum].transform.position;
+            GameObject newShip = PhotonNetwork.Instantiate(this.playerPrefab.name, spawnLocation, Quaternion.identity, 0) as GameObject;
+            PlayerController2D controlScript = newShip.GetComponent<PlayerController2D>();
+            CameraFollow playerCamera = Camera.main.GetComponent<CameraFollow>();
+            controlScript.mainCam = playerCamera;
+            playerCamera.playerShip = newShip;
+            playerCamera.FollowActive(true);
         }
     }
 }

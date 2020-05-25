@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: 9154735317106501813}
   - component: {fileID: 2477067906996314142}
   - component: {fileID: 2947877064855046293}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RedLaserFast
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1072048885
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2ea5a795b25e5584e9057ff1322dec9b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   travelSpeed: 25
   lifeTime: 3
-  damage: 100
+  damage: 25
   fadeInTime: 50
 --- !u!114 &6428024505906839287
 MonoBehaviour:
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
+  ObservedComponentsFoldoutOpen: 0
   Group: 0
   prefixField: -1
   Synchronization: 0
