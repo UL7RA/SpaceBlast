@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -48,7 +49,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void Connect()
     {
         loadingObject.SetActive(true);
-
+        PhotonNetwork.NickName = PlayerPrefs.GetString("PlayerName");
         // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
         if (PhotonNetwork.IsConnected)
         {
@@ -91,6 +92,11 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }
 
+    public override void OnCreatedRoom()
+    {
+        PhotonNetwork.NickName = PlayerPrefs.GetString("PlayerName");
+        Debug.Log("Created a room!");
+    }
     public override void OnJoinedRoom()
     {
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");

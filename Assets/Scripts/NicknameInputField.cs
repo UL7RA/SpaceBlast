@@ -7,7 +7,7 @@ using Photon.Realtime;
 using Photon.Pun;
 
 [RequireComponent(typeof(InputField))]
-public class NicknameInputField : MonoBehaviour
+public class NicknameInputField : MonoBehaviourPun
 {
     #region Private Constants
 

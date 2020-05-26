@@ -127,9 +127,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   travelSpeed: 25
-  lifeTime: 3
-  damage: 25
-  fadeInTime: 50
+  lifeTime: 1
+  damage: 30
+  fadeInTime: 100
 --- !u!114 &6428024505906839287
 MonoBehaviour:
   m_ObjectHideFlags: 0

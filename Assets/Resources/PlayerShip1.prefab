@@ -71,11 +71,12 @@ GameObject:
   - component: {fileID: 2236400287574592887}
   - component: {fileID: 2236400287574592886}
   - component: {fileID: 2236400287574592885}
-  - component: {fileID: 2236400287574592884}
   - component: {fileID: 2236400287574592891}
   - component: {fileID: 2236400287574592890}
-  - component: {fileID: -5349995972018950760}
   - component: {fileID: 4290936175482672375}
+  - component: {fileID: 53428175610247630}
+  - component: {fileID: -7201621906109801267}
+  - component: {fileID: 116541903889334344}
   m_Layer: 8
   m_Name: PlayerShip1
   m_TagString: Player
@@ -169,50 +170,8 @@ MonoBehaviour:
   turnSpeed: 5
   maxSpeed: 2
   fireCooldown: 0.3
-  health: 100
   mainCam: {fileID: 0}
   isCurrentControlledShip: 0
---- !u!60 &2236400287574592884
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2236400287574592888}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.99, y: 0.75}
-    newSize: {x: 0.99, y: 0.75}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.49499997, y: 0.125}
-      - {x: 0.275, y: 0.105}
-      - {x: 0.125, y: 0.235}
-      - {x: 0.13499999, y: 0.375}
-      - {x: -0.105, y: 0.375}
-      - {x: -0.145, y: 0.125}
-      - {x: -0.265, y: 0.065}
-      - {x: -0.49499997, y: 0.095}
-      - {x: -0.49499997, y: -0.24499999}
-      - {x: -0.42499998, y: -0.285}
-      - {x: -0.145, y: -0.295}
-      - {x: -0.095, y: -0.375}
-      - {x: 0.105, y: -0.375}
-      - {x: 0.255, y: -0.285}
-      - {x: 0.45499998, y: -0.265}
-      - {x: 0.49499997, y: -0.255}
 --- !u!114 &2236400287574592891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,10 +187,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 1
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 4290936175482672375}
+  - {fileID: 53428175610247630}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -249,28 +209,13 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 150
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &-5349995972018950760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2236400287574592888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_Constraints: 4
 --- !u!114 &4290936175482672375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,3 +232,47 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &53428175610247630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236400287574592888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b330172692c95bc4294653fb3a764fd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localScripts:
+  - {fileID: 2236400287574592885}
+  lerpSpeed: 10
+--- !u!114 &-7201621906109801267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236400287574592888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59963ed06d2e1f74d949485233b855f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+--- !u!58 &116541903889334344
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236400287574592888}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4

@@ -27,6 +27,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("Master Client connected. Loading level...");
             LoadArena();
         }
+        Player[] players = PhotonNetwork.PlayerList;
+        foreach(Player p in players)
+        {
+            Debug.Log(p.NickName);
+        }
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -73,7 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogFormat("We are Instantiating LocalPlayer");
+            Debug.Log("We are Instantiating LocalPlayer");
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
             int spawnPointNum = Random.Range((int)0, (int)spawnPoints.Length);
             Vector3 spawnLocation = spawnPoints[spawnPointNum].transform.position;
