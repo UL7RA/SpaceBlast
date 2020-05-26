@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
+using Photon.Pun;
 using DG.Tweening;
+using Photon.Realtime;
 
-public class LaserController : MonoBehaviour
+public class LaserController : MonoBehaviourPun
 {
     public float travelSpeed;
     public float lifeTime;
@@ -13,7 +15,7 @@ public class LaserController : MonoBehaviour
 
     float destroyTime;
     SpriteRenderer laserSpriterenderer;
-    string ownerID;
+    Player owner;
     void Start()
     {
         gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(transform.up.x * travelSpeed, transform.up.y * travelSpeed);
@@ -35,13 +37,13 @@ public class LaserController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerVariables>().IncomingDamage(damage, ownerID);
+            other.gameObject.GetComponent<PlayerVariables>().IncomingDamage(damage, owner);
         }
         Destroy(gameObject);
     }
 
-    public void SetOwner(string value)
+    public void SetOwner(Player value)
     {
-        ownerID = value;
+        owner = value;
     }
 }

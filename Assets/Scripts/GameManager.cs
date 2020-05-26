@@ -5,13 +5,17 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Linq;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
+    public float respawnTime;
 
     public Transform[] spawnPoints;
+
+    public Slider healthBar;
 
     #region Photon Callbacks
     public override void OnLeftRoom()
@@ -78,16 +82,33 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.Log("We are Instantiating LocalPlayer");
-            // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            int spawnPointNum = Random.Range((int)0, (int)spawnPoints.Length);
-            Vector3 spawnLocation = spawnPoints[spawnPointNum].transform.position;
-            GameObject newShip = PhotonNetwork.Instantiate(this.playerPrefab.name, spawnLocation, Quaternion.identity, 0) as GameObject;
-            PlayerController2D controlScript = newShip.GetComponent<PlayerController2D>();
-            CameraFollow playerCamera = Camera.main.GetComponent<CameraFollow>();
-            controlScript.mainCam = playerCamera;
-            playerCamera.playerShip = newShip;
-            playerCamera.FollowActive(true);
+            SpawnPlayer();
         }
+    }
+
+    public void SpawnPlayer()
+    {
+        Debug.Log("We are Instantiating LocalPlayer");
+        // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+        int spawnPointNum = Random.Range((int)0, (int)spawnPoints.Length);
+        Vector3 spawnLocation = spawnPoints[spawnPointNum].transform.position;
+        GameObject newShip = PhotonNetwork.Instantiate(this.playerPrefab.name, spawnLocation, Quaternion.identity, 0) as GameObject;
+        PlayerController2D controlScript = newShip.GetComponent<PlayerController2D>();
+        CameraFollow playerCamera = Camera.main.GetComponent<CameraFollow>();
+        controlScript.mainCam = playerCamera;
+        controlScript.manager = this;
+        playerCamera.playerShip = newShip;
+        playerCamera.FollowActive(true);
+        newShip.GetComponent<PlayerVariables>().healthBar = healthBar;
+    }
+
+    public void RespawnPlayer()
+    {
+        StartCoroutine("RespawnDelay", respawnTime);
+    }
+    IEnumerator RespawnDelay(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        SpawnPlayer();
     }
 }

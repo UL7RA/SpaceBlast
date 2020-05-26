@@ -17,6 +17,7 @@ public class PlayerController2D : MonoBehaviourPun
 
     [HideInInspector]
     public CameraFollow mainCam;
+    public GameManager manager;
     public bool isCurrentControlledShip;
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
@@ -44,8 +45,8 @@ public class PlayerController2D : MonoBehaviourPun
         isCurrentControlledShip = photonView.IsMine;
         mousePos = Input.mousePosition;
         objectPos = Camera.main.WorldToScreenPoint(transform.position);
-        mousePos.x = mousePos.x - objectPos.x;
-        mousePos.y = mousePos.y - objectPos.y;
+        mousePos.x = (mousePos.x - objectPos.x);
+        mousePos.y = (mousePos.y - objectPos.y);
         mousePos.z = 0;
     }
 
@@ -70,7 +71,7 @@ public class PlayerController2D : MonoBehaviourPun
         {
             Vector3 fireCoords = firePositionTransform.position;
             GameObject laser = PhotonNetwork.Instantiate(projectileName, fireCoords, transform.rotation) as GameObject;
-            laser.GetComponent<LaserController>().SetOwner(PhotonNetwork.LocalPlayer.UserId);
+            laser.GetComponent<LaserController>().SetOwner(PhotonNetwork.LocalPlayer);
         }
     }
 
@@ -98,7 +99,7 @@ public class PlayerController2D : MonoBehaviourPun
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine)
         {
-            PlayerController2D.LocalPlayerInstance = this.gameObject;
+            PlayerController2D.LocalPlayerInstance = gameObject;
         }
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.

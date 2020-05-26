@@ -168,9 +168,10 @@ MonoBehaviour:
   - {fileID: 2236400287187295168}
   - {fileID: 2236400286063655011}
   turnSpeed: 5
-  maxSpeed: 2
+  maxSpeed: 5
   fireCooldown: 0.3
   mainCam: {fileID: 0}
+  manager: {fileID: 0}
   isCurrentControlledShip: 0
 --- !u!114 &2236400287574592891
 MonoBehaviour:
@@ -246,7 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localScripts:
   - {fileID: 2236400287574592885}
-  lerpSpeed: 10
+  lerpSpeed: 5
 --- !u!114 &-7201621906109801267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +261,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
+  health: 0
+  score: 0
+  healthBar: {fileID: 0}
 --- !u!58 &116541903889334344
 CircleCollider2D:
   m_ObjectHideFlags: 0
