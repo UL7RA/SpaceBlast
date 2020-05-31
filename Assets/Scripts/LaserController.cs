@@ -12,6 +12,7 @@ public class LaserController : MonoBehaviourPun
     public float lifeTime;
     public int damage;
     public float fadeInTime;
+    public string impactEffectName;
 
     float destroyTime;
     SpriteRenderer laserSpriterenderer;
@@ -39,6 +40,7 @@ public class LaserController : MonoBehaviourPun
         {
             other.gameObject.GetComponent<PlayerVariables>().IncomingDamage(damage, owner);
         }
+        Instantiate(Resources.Load(impactEffectName), transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
