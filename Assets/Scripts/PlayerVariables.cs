@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerVariables : MonoBehaviourPun
 {
@@ -12,10 +13,12 @@ public class PlayerVariables : MonoBehaviourPun
     public int health;
     public int score;
     public Slider healthBar;
+    public TextMeshPro nameBar;
     // Start is called before the first frame update
     void Start()
     {
         health = startingHealth;
+        nameBar.text = photonView.Owner.NickName;
         if (photonView.IsMine)
         {
             healthBar.maxValue = startingHealth;
@@ -34,7 +37,6 @@ public class PlayerVariables : MonoBehaviourPun
         {
             health -= value;
             healthBar.DOValue(health, 0.5f);
-            Debug.Log(health);
             if (health <= 0)
             {
                 photonView.RPC("AddScore", laserOwner);
@@ -50,8 +52,12 @@ public class PlayerVariables : MonoBehaviourPun
 
     public void KillPlayer()
     {
-        //gameObject.GetComponent<GameManager>().RespawnPlayer();
         GameObject.Find("GameManager").GetComponent<GameManager>().RespawnPlayer();
         PhotonNetwork.Destroy(gameObject);
+    }
+
+    public void OnDestroy()
+    {
+        Instantiate(Resources.Load("ExplosionParticle"), transform.position, Quaternion.identity);
     }
 }

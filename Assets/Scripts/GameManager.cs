@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform[] spawnPoints;
 
     public Slider healthBar;
+    public Text playerList;
 
     #region Photon Callbacks
     public override void OnLeftRoom()
@@ -31,11 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("Master Client connected. Loading level...");
             LoadArena();
         }
-        Player[] players = PhotonNetwork.PlayerList;
-        foreach(Player p in players)
-        {
-            Debug.Log(p.NickName);
-        }
+        UpdatePlayerList();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -46,6 +43,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("Master client disconnected. Closing level...");
             LoadArena(); //this doesn't look right.. perhaps it just reloads the level without kicking off everyone?
         }
+        UpdatePlayerList();
     }
     #endregion
 
@@ -84,6 +82,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             SpawnPlayer();
         }
+        UpdatePlayerList();
     }
 
     public void SpawnPlayer()
@@ -110,5 +109,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(waitTime);
         SpawnPlayer();
+    }
+
+    void UpdatePlayerList()
+    {
+        Debug.Log("Updating Player List");
+        Player[] players = PhotonNetwork.PlayerList;
+        string playerListText = "";
+        foreach (Player p in players)
+        {
+            playerListText += p.NickName;
+            playerListText += "\n";
+        }
+        playerList.text = playerListText;
     }
 }
